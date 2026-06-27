@@ -5,3 +5,16 @@ services:
       context: .
     ports:
       - 8000:8000
+    networks:
+      - backend
+    env_file:
+      - .env
+  inkfra-db:
+    image: postgres
+    volumes:
+      - ./db:/var/lib/postgresql
+    env_file:
+      - .env
+
+networks:
+  backend:
