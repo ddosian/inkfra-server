@@ -3,6 +3,9 @@ import os
 def get_env(name):
     return os.environ.get(name)
 
+# General environment variables
+DEBUG               = get_env("DEBUG")
+
 # Postgres environment variables
 POSTGRES_USER       = get_env("POSTGRES_USER")
 POSTGRES_PASSWORD   = get_env("POSTGRES_PASSWORD")

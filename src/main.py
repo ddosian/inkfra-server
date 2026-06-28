@@ -1,15 +1,11 @@
-import environment
+from utils import *
+
 import database
 from flask import Flask
 
-db = database.connect()
+log.debug(database.execute("SELECT version()"))
 
-db_connection = db[0]
-db_cursor = db[1]
-
-db_cursor.execute('SELECT version()')
-postgres_version = db_cursor.fetchone()[0]
-print(f"Connected to Postgres version: {postgres_version}")
+database.initialize()
 
 app = Flask(__name__)
 
@@ -17,7 +13,14 @@ app = Flask(__name__)
 def health_check():
     return "Service is running!"
 
-db_connection.close()
+@app.route('/devices/get', methods=['GET'])
+def get_devices():
+    try:
+        devices = database.execute("SELECT * FROM devices")
+        return {"devices": devices}, 200
+    except Exception as e:
+        log.error(f"Error fetching devices: {e}")
+        return {"error": "Unable to fetch devices"}, 500
 
 if __name__ == '__main__':
     app.run(port=8000, host='0.0.0.0')
