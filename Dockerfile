@@ -21,7 +21,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 USER inkfra
 
-COPY src/* .
+COPY src .
 
 EXPOSE 8000
 
